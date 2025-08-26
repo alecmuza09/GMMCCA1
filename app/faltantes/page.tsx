@@ -24,14 +24,26 @@ interface Faltante {
 }
 
 export default function FaltantesPage() {
-  const { user } = useAuth()
+  const { user, loading: authLoading } = useAuth()
   const [faltantes, setFaltantes] = useState<Faltante[]>([])
   const [loading, setLoading] = useState(true)
 
   const userRole = user?.role as UserRole
 
+  // Mostrar loading mientras se autentica
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Verificando permisos...</p>
+        </div>
+      </div>
+    )
+  }
+
   // Verificar permisos
-  if (!canAccess(userRole, 'viewAllEmissions') && userRole !== 'OPERACIONES') {
+  if (!user || (!canAccess(userRole, 'viewAllEmissions') && userRole !== 'OPERACIONES')) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <Card className="w-96">
