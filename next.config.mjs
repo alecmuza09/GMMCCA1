@@ -9,6 +9,11 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  // Configuración para Netlify
+  output: 'standalone',
+  serverExternalPackages: ['@prisma/client'],
+  // Evitar problemas con APIs durante el build
+  trailingSlash: false,
 }
 
 export default nextConfig

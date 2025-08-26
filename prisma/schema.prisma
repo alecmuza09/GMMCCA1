@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -37,11 +37,11 @@ model Emision {
   montoUSD        Float?
   
   // JSON fields for flexible data storage
-  solicitante     String      // JSON as string for SQLite
-  moralInfo       String?     // JSON as string for SQLite
-  declaraciones   String?     // JSON as string for SQLite
-  supuestosMeta   String?     // JSON as string for SQLite
-  ocrFindings     String?     // JSON as string for SQLite
+  solicitante     Json        // Native JSON support in PostgreSQL
+  moralInfo       Json?       // Native JSON support in PostgreSQL
+  declaraciones   Json?       // Native JSON support in PostgreSQL
+  supuestosMeta   Json?       // Native JSON support in PostgreSQL
+  ocrFindings     Json?       // Native JSON support in PostgreSQL
   
   escaladoA       Role?
   responsableId   String?
@@ -87,7 +87,7 @@ model Documento {
   url        String
   mime       String
   ocrStatus  OCRStatus @default(PENDING)
-  ocrData    String?   // JSON as string for SQLite
+  ocrData    Json?     // Native JSON support in PostgreSQL
   uploadedAt DateTime  @default(now())
 
   // Relations
